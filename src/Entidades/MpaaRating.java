@@ -1,3 +1,5 @@
+package Entidades;
+
 public enum MpaaRating {
     G,
     PG,

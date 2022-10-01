@@ -1,3 +1,7 @@
+package Entidades;
+
+import Entidades.Coordinates;
+
 import java.util.Date;
 
 public class Movie {
@@ -13,7 +17,7 @@ public class Movie {
     private Person operator; //Поле может быть null
 
 
- public Movie(long id,String name,Coordinates coordinates,java.util.Date creationDate,long oscarsCount,Integer budget,int totalBoxOffice,MpaaRating mpaaRating,Person operator){
+ public Movie(long id, String name, Coordinates coordinates, java.util.Date creationDate, long oscarsCount, Integer budget, int totalBoxOffice, MpaaRating mpaaRating, Person operator){
      this.id= id;
      this.name = name;
      this.coordinates = coordinates;
