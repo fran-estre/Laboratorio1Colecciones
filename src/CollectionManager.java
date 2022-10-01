@@ -39,7 +39,7 @@ public class CollectionManager {
         message = "Enter the budget:";
         Integer budget;
         do {
-            budget = readInt(sc, message, false);
+            budget = readInt(sc, message, true);
             if (budget <= 0) {
                 System.out.println("The value must be greater than 0");
             }
@@ -80,10 +80,10 @@ public class CollectionManager {
         String message = "Introduce the coordinate x:";
         Double x = readDouble(sc, message, true);
         message = "Introduce the coordinate y:";
-        float y = readFloat(sc, message, true);
+        float y = readFloat(sc, message, false);
         while (y <= -43) {
             System.out.println("You have entered a wrong value, you can only enter values greater than -43.");
-            y = readFloat(sc, message, true);
+            y = readFloat(sc, message, false);
         }
         return new Coordinates(x, y);
     }
@@ -128,7 +128,7 @@ public class CollectionManager {
         String message = "Introduce the Location coordinate x:";
         Long x = readLong(sc, message, true);
         message = "Introduce the Location coordinate y:";
-        float y = readFloat(sc, message, true);
+        float y = readFloat(sc, message, false);
         message = "Introduce the Location coordinate z:";
         Float z = readFloat(sc, message, true);
         message = "Introduce the Location name:";
@@ -252,6 +252,12 @@ public class CollectionManager {
         return x;
     }
 
+    /**
+     * @param sc         scanner
+     * @param message    indica que informacion se lee
+     * @param obligatory true indica que continue leyendo hasta que sea distinto de null, false indica una sola lectura
+     * @return int
+     */
     public static Integer readInt(Scanner sc, String message, boolean obligatory) {
         System.out.println(message);
         boolean continueReading = obligatory;
@@ -266,7 +272,12 @@ public class CollectionManager {
         } while (continueReading);
         return x;
     }
-
+    /**
+     * @param sc         scanner
+     * @param message    indica que informacion se lee
+     * @param obligatory true indica que continue leyendo hasta que sea distinto de null, false indica una sola lectura
+     * @return float
+     */
     private static Float readFloat(Scanner sc, String message, boolean obligatory) {
         System.out.println(message);
         boolean continueReading = obligatory;
