@@ -1,13 +1,15 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import Entidades.Movie;
+
+import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Commander {
+    static Hashtable<Long, Movie> movieHashtable = new Hashtable<Long, Movie>();
+    static String fileName;
+    static String initialization;
 
-    private static void handleConsoleCommand() {
-        CollectionManager manager =new CollectionManager();
+    public static void handleConsoleCommand() {
+        CollectionManager manager = new CollectionManager();
         Scanner keyboard = new Scanner(System.in);
         String currentCommand;
         System.out.println("Enter the command: ");
@@ -18,13 +20,13 @@ public class Commander {
                     manager.help();
                     break;
                 case "info":
-
+                    manager.info(movieHashtable, initialization);
                     break;
                 case "show":
-
+                    CollectionManager.show(movieHashtable);
                     break;
                 case "clear":
-
+                    CollectionManager.clear(movieHashtable);
                 case "save":
 
                     break;
@@ -40,7 +42,7 @@ public class Commander {
                         System.out.println("The command is invalid.");
                         break;
                     }
-
+                    CollectionManager.remove(key, movieHashtable);
                     break;
                 case "execute_script":
                     if (parts.length < 2) {
@@ -60,14 +62,14 @@ public class Commander {
                         System.out.println("The command is invalid.");
                         break;
                     }
-                    Long age;
+                    long oscarsCount;
                     try {
-                        age = Long.parseLong(parts[2]);
+                        oscarsCount = Long.parseLong(parts[2]);
                     } catch (NumberFormatException e) {
                         System.out.println("The command is invalid.");
                         break;
                     }
-
+                    CollectionManager.replaceIfGreater(key, oscarsCount, movieHashtable);
                     break;
                 case "replace_if_lower":
                     if (parts.length < 3) {
@@ -80,14 +82,13 @@ public class Commander {
                         System.out.println("The command is invalid.");
                         break;
                     }
-
                     try {
-                        age = Long.parseLong(parts[2]);
+                        oscarsCount = Long.parseLong(parts[2]);
                     } catch (NumberFormatException e) {
                         System.out.println("The command is invalid.");
                         break;
                     }
-
+                    CollectionManager.replaceIfLower(key, oscarsCount, movieHashtable);
                     break;
                 case "remove_greater_key":
                     if (parts.length < 2) {

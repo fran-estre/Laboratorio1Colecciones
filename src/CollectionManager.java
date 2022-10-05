@@ -1,9 +1,6 @@
 import Entidades.*;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CollectionManager {
 
@@ -26,6 +23,45 @@ public class CollectionManager {
                 "print_field_descending_oscars_count : вывести значения поля oscarsCount всех элементов в порядке убывания");
     }
 
+    public static void info(Hashtable<Long, Movie> movieHashtable,String initialization){
+        System.out.println("type: Hashtable<Long, Movie>");
+        System.out.println("initialization: " + initialization);
+        System.out.println("length: " + movieHashtable.size());
+    }
+    public static void show(Hashtable<Long, Movie> movieHashtable) {
+        movieHashtable.forEach((k, v) -> System.out.println("\n" + v.toString()));
+    }
+    static void clear(Hashtable<Long, Movie> movieHashtable) {
+        movieHashtable = new Hashtable<Long, Movie>();
+    }
+
+    static void remove(Long id,Hashtable<Long, Movie> movieHashtable) {
+        if (movieHashtable.containsKey(id)) {
+            movieHashtable.remove(id);
+            System.out.println("The movie was removed.");
+        } else
+            System.out.println("The movie don't exists.");
+    }
+
+    static void replaceIfGreater(Long id, long oscarsCount,Hashtable<Long, Movie> movieHashtable) {
+        if (movieHashtable.containsKey(id))
+            if (movieHashtable.get(id).getOscarsCount() < oscarsCount) {
+                movieHashtable.get(id).setOscarsCount(oscarsCount);
+                System.out.println("\nThe oscarsCount was replaced.");
+                return;
+            }
+        System.out.println("\nNothing to replace.");
+    }
+
+    static void replaceIfLower(Long id, long oscarsCount,Hashtable<Long, Movie> movieHashtable) {
+        if (movieHashtable.containsKey(id))
+            if (movieHashtable.get(id).getOscarsCount() > oscarsCount) {
+                movieHashtable.get(id).setOscarsCount(oscarsCount);
+                System.out.println("\nThe oscarsCount was replaced.");
+                return;
+            }
+        System.out.println("\nNothing to replace.");
+    }
     public static Movie createMovie(Scanner sc, Long id) {
         String message = "Introduce the name of the movie:";
         String name;
