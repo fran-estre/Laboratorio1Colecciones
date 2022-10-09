@@ -26,7 +26,7 @@ public class Commander {
                     CollectionManager.show(movieHashtable);
                     break;
                 case "clear":
-                    CollectionManager.clear(movieHashtable);
+                    movieHashtable=CollectionManager.clear();
                 case "save":
 
                     break;
@@ -101,16 +101,30 @@ public class Commander {
                         System.out.println("The command is invalid.");
                         break;
                     }
-
+                    CollectionManager.remove_greater_key(key,movieHashtable);
                     break;
                 case "count_less_than_oscars_count":
+                    if (parts.length < 2) {
+                        System.out.println("The command is incomplete, you need to enter the value.");
+                        break;
+                    }
+                    long value;
+                    try {
+                        value = Long.parseLong(parts[1]);
+                    } catch (NumberFormatException e) {
+                        System.out.println("The command is invalid.");
+                        break;
+                    }
+                    CollectionManager.count_less_than_oscars_count(value,movieHashtable);
                     break;
                 case "print_ascending":
+
                     break;
                 case "print_field_descending_oscars_count":
+
                     break;
                 case "insert":
-
+                    CollectionManager.insert(keyboard,movieHashtable);
                     break;
                 case "update":
                     if (parts.length < 2) {
@@ -123,7 +137,7 @@ public class Commander {
                         System.out.println("The command is invalid.");
                         break;
                     }
-
+                    CollectionManager.update(key,keyboard,movieHashtable);
                     break;
                 default:
                     System.out.println("Unknown command");

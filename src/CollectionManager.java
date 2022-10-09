@@ -1,6 +1,10 @@
 import Entidades.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class CollectionManager {
 
@@ -22,7 +26,6 @@ public class CollectionManager {
                 "print_ascending : вывести элементы коллекции в порядке возрастания\n"+
                 "print_field_descending_oscars_count : вывести значения поля oscarsCount всех элементов в порядке убывания");
     }
-
     public static void info(Hashtable<Long, Movie> movieHashtable,String initialization){
         System.out.println("type: Hashtable<Long, Movie>");
         System.out.println("initialization: " + initialization);
@@ -31,10 +34,10 @@ public class CollectionManager {
     public static void show(Hashtable<Long, Movie> movieHashtable) {
         movieHashtable.forEach((k, v) -> System.out.println("\n" + v.toString()));
     }
-    static void clear(Hashtable<Long, Movie> movieHashtable) {
-        movieHashtable = new Hashtable<Long, Movie>();
+    static Hashtable<Long, Movie> clear() {
+        Hashtable<Long, Movie> movieHashtable = new Hashtable<>();
+        return movieHashtable;
     }
-
     static void remove(Long id,Hashtable<Long, Movie> movieHashtable) {
         if (movieHashtable.containsKey(id)) {
             movieHashtable.remove(id);
@@ -42,7 +45,6 @@ public class CollectionManager {
         } else
             System.out.println("The movie don't exists.");
     }
-
     static void replaceIfGreater(Long id, long oscarsCount,Hashtable<Long, Movie> movieHashtable) {
         if (movieHashtable.containsKey(id))
             if (movieHashtable.get(id).getOscarsCount() < oscarsCount) {
@@ -52,7 +54,6 @@ public class CollectionManager {
             }
         System.out.println("\nNothing to replace.");
     }
-
     static void replaceIfLower(Long id, long oscarsCount,Hashtable<Long, Movie> movieHashtable) {
         if (movieHashtable.containsKey(id))
             if (movieHashtable.get(id).getOscarsCount() > oscarsCount) {
@@ -62,7 +63,80 @@ public class CollectionManager {
             }
         System.out.println("\nNothing to replace.");
     }
-    public static Movie createMovie(Scanner sc, Long id) {
+    static void count_less_than_oscars_count(long num,Hashtable<Long, Movie> movieHashtable) {
+         AtomicReference<Integer> counter = new AtomicReference<>(0);
+        movieHashtable.forEach((k, v) -> {
+            if (v.getOscarsCount() == num)
+                counter.getAndSet(counter.get() + 1);
+        });
+        System.out.println("\nThere are " + counter.get() + " movies with less than "+num+" oscars.");
+    }
+    static void insert(Scanner keyboard,Hashtable<Long, Movie> movieHashtable) {
+        Movie movie = createMovie(keyboard,movieHashtable);
+        movieHashtable.put(movie.getId(), movie);
+    }
+    static void update(Long id, Scanner keyboard,Hashtable<Long, Movie> movieHashtable) {
+        if (movieHashtable.containsKey(id)) {
+            Movie movie = createMovie(keyboard,movieHashtable);
+            movieHashtable.replace(id, movie);
+            System.out.println("The movie was updated.");
+        } else
+            System.out.println("The movie don't exist.");
+    }
+    static void remove_greater_key(Long id,Hashtable<Long, Movie> movieHashtable) {
+        Iterator<Map.Entry<Long, Movie>> it = movieHashtable.entrySet().iterator();
+        Integer deleted = 0;
+        while (it.hasNext()) {
+            Map.Entry<Long, Movie> entry = it.next();
+            if (entry.getKey() > id) {
+                it.remove();
+                deleted++;
+            }
+        }
+        System.out.println("Deleted elements: " + deleted);
+    }
+
+    private static void save(String fileName,Hashtable<Long, Movie> movieHashtable) {
+        String movie[] = new String[17];
+        List<String[]> movies = new ArrayList<>();
+        Enumeration<Long> e = movieHashtable.keys();
+        while (e.hasMoreElements()) {
+            long key = e.nextElement();
+            Movie m= movieHashtable.get(key);
+            movie[0]= String.valueOf(m.getId());
+            movie[1]=String.valueOf(m.getName());
+            movie[2]= String.valueOf(m.getCoordinates().getX());
+            movie[3]=String.valueOf(m.getCoordinates().getY());
+            movie[4]=String.valueOf(m.getCreationDate());
+            movie[5]=String.valueOf(m.getOscarsCount());
+            movie[6]=String.valueOf(m.getBudget());
+            movie[7]=String.valueOf(m.getTotalBoxOffice());
+            movie[8]=String.valueOf(m.getMpaaRating());
+            movie[9]=String.valueOf(m.getOperator().getName());
+            movie[10]=String.valueOf(m.getOperator().getHeight());
+            movie[11]=String.valueOf(m.getOperator().getPassportID());
+            movie[12]=String.valueOf(m.getOperator().getEyeColor());
+            movie[13]=String.valueOf(m.getOperator().getLocation().getX());
+            movie[14]=String.valueOf(m.getOperator().getLocation().getY());
+            movie[15]=String.valueOf(m.getOperator().getLocation().getZ());
+            movie[16]=String.valueOf(m.getOperator().getLocation().getName());
+            movies.add(movie);
+        }
+
+
+
+    }
+    private static Long getNewId(Hashtable<Long, Movie> movieHashtable) {
+        Long maxKey = Long.valueOf(0);
+        for (Map.Entry<Long, Movie> entry : movieHashtable.entrySet()) {
+            if (entry.getKey() > maxKey) {
+                maxKey = entry.getKey();
+            }
+        }
+        maxKey++;
+        return maxKey;
+    }
+    public static Movie createMovie(Scanner sc,Hashtable<Long, Movie> movieHashtable) {
         String message = "Introduce the name of the movie:";
         String name;
         do {
@@ -113,9 +187,8 @@ public class CollectionManager {
         Person operator = createPerson(sc);
 
 
-        return new Movie(id, name, coordinates, date, oscarsCount, budget, totalBoxOffice, rating, operator);
+        return new Movie(getNewId(movieHashtable), name, coordinates, date, oscarsCount, budget, totalBoxOffice, rating, operator);
     }
-
     private static MpaaRating getMpaaRating(Scanner sc) {
         System.out.println("Enter the Mpaa rating(  G, PG, PG_13, R, NC_17):");
         String rate = sc.next();
@@ -131,7 +204,6 @@ public class CollectionManager {
         }
         return rating;
     }
-
     public static Coordinates createCoordinates(Scanner sc) {
         String message = "Introduce the coordinate x:";
         Double x = readDouble(sc, message, true);
@@ -143,7 +215,6 @@ public class CollectionManager {
         }
         return new Coordinates(x, y);
     }
-
     public static Person createPerson(Scanner sc) {
         String message = "Enter the person's name:";
         String name;
@@ -179,7 +250,6 @@ public class CollectionManager {
 
         return new Person(name, height, passport, eye, location);
     }
-
     private static Location createLocation(Scanner sc) {
         String message = "Introduce the Location coordinate x:";
         Long x = readLong(sc, message, true);
@@ -192,7 +262,6 @@ public class CollectionManager {
 
         return new Location(x, y, z, name);
     }
-
     private static Color createEye(Scanner sc) {
         System.out.println("Enter the eye color(RED, YELLOW, ORANGE, BROWN):");
         String color = sc.next();
@@ -208,7 +277,6 @@ public class CollectionManager {
         }
         return colorEye;
     }
-
     public static Integer tryParseInt(String text) {
         try {
             return Integer.parseInt(text);
@@ -217,7 +285,6 @@ public class CollectionManager {
             return null;
         }
     }
-
     public static Long tryParseLong(String text) {
         try {
             return Long.parseLong(text);
@@ -226,7 +293,6 @@ public class CollectionManager {
             return null;
         }
     }
-
     private static Float tryParseFloat(String text) {
         try {
             return Float.parseFloat(text);
@@ -235,7 +301,6 @@ public class CollectionManager {
             return null;
         }
     }
-
     public static Double tryParseDouble(String text) {
         try {
             return Double.parseDouble(text);
