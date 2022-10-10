@@ -29,6 +29,10 @@ public class Movie {
      this.operator = operator;
  }
 
+    public Movie() {
+
+    }
+
     public long getId() {
         return id;
     }
