@@ -100,4 +100,27 @@ public class Movie {
     public void setOperator(Person operator) {
         this.operator = operator;
     }
+
+    public String toCsv() {
+        String idCsv = String.format("%s,", getId());
+        String nameCsv = String.format("%s,", getName());
+        String dateCsv = String.format("%s,", getCreationDate());
+        String oscarsCountCsv = String.format("%s,", getOscarsCount());
+        String budgetCsv = String.format("%s,", getBudget());
+        String totalBoxOfficeCsv = String.format("%s,", getTotalBoxOffice());
+        String coordinatesCsv = getCoordinates().toCsv();
+        String mpaaRatingCsv = String.format("%s,", getMpaaRating());
+        String personCsv = getOperator().toCsv();
+        String movieCsv = String.format("%s%s%s%s%s%s%s%s%s",
+                idCsv,
+                nameCsv,
+                coordinatesCsv,
+                dateCsv,
+                oscarsCountCsv,
+                budgetCsv,
+                totalBoxOfficeCsv,
+                mpaaRatingCsv,
+                personCsv);
+        return movieCsv;
+    }
 }

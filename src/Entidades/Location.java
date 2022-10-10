@@ -44,4 +44,12 @@ public class Location {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String toCsv() {
+        String xCsv = String.format("%s,", getX());
+        String yCsv = String.format("%s,", getY());
+        String zCsv = String.format("%s,", getZ());
+        String nameCsv = String.format("%s,", getName());
+        return String.format("%s%s%s%s", xCsv, yCsv, zCsv, nameCsv);
+    }
 }

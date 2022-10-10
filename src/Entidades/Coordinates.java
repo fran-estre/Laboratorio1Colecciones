@@ -23,4 +23,9 @@ public class Coordinates {
     public void setY(float y) {
         this.y = y;
     }
+    public String toCsv() {
+        String xCsv = String.format("%s,", getX());
+        String yCsv = String.format("%s,", getY());
+        return String.format("%s%s", xCsv, yCsv);
+    }
 }

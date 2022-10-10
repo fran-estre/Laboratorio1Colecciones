@@ -1,5 +1,7 @@
 import Entidades.Movie;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Hashtable;
 import java.util.Scanner;
 
@@ -8,7 +10,7 @@ public class Commander {
     static String fileName;
     static String initialization;
 
-    public static void handleConsoleCommand() {
+    public static void handleConsoleCommand(String[] args) {
         CollectionManager manager = new CollectionManager();
         Scanner keyboard = new Scanner(System.in);
         String currentCommand;
@@ -146,6 +148,32 @@ public class Commander {
             System.out.println("Enter the new command: ");
         }
         System.out.println("Goodbye.");
+    }
+
+    private static String getFileName(String[] args) {
+        String fileName;
+        if (args.length == 0) {
+            Scanner keyboard = new Scanner(System.in);
+            System.out.println("Enter file name: ");
+            fileName = keyboard.nextLine();
+        } else {
+            fileName = args[0];
+        }
+        File f = new File(fileName);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        if (!f.exists()) {
+            System.out.println("The file doesn't exists.");
+            return null;
+        } else {
+            movieHashtable = new CsvReader().read(fileName);
+            if (movieHashtable == null) {
+                System.out.println("There was a problem reading the file.");
+                return null;
+            }
+            initialization = sdf.format(f.lastModified());
+        }
+        return fileName;
     }
 
 }

@@ -56,4 +56,19 @@ public class Person {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    public String toCsv() {
+        String nameCsv = String.format("%s,", getName());
+        String heightCsv = String.format("%s,", getHeight());
+        String passportIdCsv = String.format("%s,", getPassportID());
+        String eyeColorCsv = String.format("%s,", getEyeColor());
+        String locationCsv = getLocation().toCsv();
+        String personCsv = String.format("%s%s%s%s%s",
+                nameCsv,
+                heightCsv,
+                passportIdCsv,
+                eyeColorCsv,
+                locationCsv);
+        return personCsv;
+    }
 }

@@ -1,12 +1,13 @@
 import Entidades.*;
+import com.opencsv.CSVWriter;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class CollectionManager {
+
+
 
     public  static void help(){
         System.out.println("help : вывести справку по доступным командам\n" +
@@ -96,35 +97,22 @@ public class CollectionManager {
         System.out.println("Deleted elements: " + deleted);
     }
 
-    private static void save(String fileName,Hashtable<Long, Movie> movieHashtable) {
-        String movie[] = new String[17];
-        List<String[]> movies = new ArrayList<>();
-        Enumeration<Long> e = movieHashtable.keys();
-        while (e.hasMoreElements()) {
-            long key = e.nextElement();
-            Movie m= movieHashtable.get(key);
-            movie[0]= String.valueOf(m.getId());
-            movie[1]=String.valueOf(m.getName());
-            movie[2]= String.valueOf(m.getCoordinates().getX());
-            movie[3]=String.valueOf(m.getCoordinates().getY());
-            movie[4]=String.valueOf(m.getCreationDate());
-            movie[5]=String.valueOf(m.getOscarsCount());
-            movie[6]=String.valueOf(m.getBudget());
-            movie[7]=String.valueOf(m.getTotalBoxOffice());
-            movie[8]=String.valueOf(m.getMpaaRating());
-            movie[9]=String.valueOf(m.getOperator().getName());
-            movie[10]=String.valueOf(m.getOperator().getHeight());
-            movie[11]=String.valueOf(m.getOperator().getPassportID());
-            movie[12]=String.valueOf(m.getOperator().getEyeColor());
-            movie[13]=String.valueOf(m.getOperator().getLocation().getX());
-            movie[14]=String.valueOf(m.getOperator().getLocation().getY());
-            movie[15]=String.valueOf(m.getOperator().getLocation().getZ());
-            movie[16]=String.valueOf(m.getOperator().getLocation().getName());
-            movies.add(movie);
+    private static void save(String fileName,Hashtable<Long, Movie> movieHashtable) throws IOException {
+        FileOutputStream fout =new FileOutputStream("fileName");
+        BufferedOutputStream bout=new BufferedOutputStream(fout);
+        Iterator<Map.Entry<Long, Movie>> it = movieHashtable.entrySet().iterator();
+        String movieString = "";
+        while (it.hasNext()) {
+            Map.Entry<Long, Movie> currentMovie = it.next();
+            movieString += currentMovie.getValue().toCsv();
         }
 
-
-
+        byte b[]=movieString.getBytes();
+        bout.write(b);
+        bout.flush();
+        bout.close();
+        fout.close();
+        System.out.println("Success");
     }
     private static Long getNewId(Hashtable<Long, Movie> movieHashtable) {
         Long maxKey = Long.valueOf(0);
