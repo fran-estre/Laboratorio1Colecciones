@@ -1,13 +1,8 @@
-import Entidades.Movie;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Hashtable;
-import java.util.Scanner;
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Commander.handleConsoleCommand(args);
     }
 

@@ -2,6 +2,7 @@ import Entidades.*;
 import com.opencsv.CSVWriter;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -97,14 +98,14 @@ public class CollectionManager {
         System.out.println("Deleted elements: " + deleted);
     }
 
-    private static void save(String fileName,Hashtable<Long, Movie> movieHashtable) throws IOException {
-        FileOutputStream fout =new FileOutputStream("fileName");
+    static void save(String fileName,Hashtable<Long, Movie> movieHashtable) throws IOException {
+        FileOutputStream fout =new FileOutputStream(fileName);
         BufferedOutputStream bout=new BufferedOutputStream(fout);
         Iterator<Map.Entry<Long, Movie>> it = movieHashtable.entrySet().iterator();
         String movieString = "";
         while (it.hasNext()) {
             Map.Entry<Long, Movie> currentMovie = it.next();
-            movieString += currentMovie.getValue().toCsv();
+            movieString += currentMovie.getValue().toCsv()+"\n";
         }
 
         byte b[]=movieString.getBytes();
@@ -230,7 +231,7 @@ public class CollectionManager {
             if (passport.length() < 4) {
                 System.out.println("The field length cannot be less than 4");
             }
-        } while (passport.isEmpty() || passport.length() >= 4);
+        } while (passport.isEmpty() || passport.length() < 4);
 
         Color eye = createEye(sc);
 
@@ -309,7 +310,7 @@ public class CollectionManager {
         boolean continueReading = obligatory;
         Long x = null;
         do {
-            x = tryParseLong(sc.nextLine());
+            x = tryParseLong(sc.next());
             if (x == null) {
                 System.out.println("The entered value cannot be null, " + message);
             } else {
@@ -330,7 +331,7 @@ public class CollectionManager {
         boolean continueReading = obligatory;
         Double x = null;
         do {
-            x = tryParseDouble(sc.nextLine());
+            x = tryParseDouble(sc.next());
             if (x == null) {
                 System.out.println("The entered value cannot be null, " + message);
             } else {
@@ -351,7 +352,7 @@ public class CollectionManager {
         boolean continueReading = obligatory;
         String x = null;
         do {
-            x = sc.nextLine();
+            x = sc.next();
             if (x == null) {
                 System.out.println("The entered value cannot be null, " + message);
             } else {
@@ -372,7 +373,7 @@ public class CollectionManager {
         boolean continueReading = obligatory;
         Integer x = null;
         do {
-            x = tryParseInt(sc.nextLine());
+            x = tryParseInt(sc.next());
             if (x == null) {
                 System.out.println("The entered value cannot be null, " + message);
             } else {
@@ -392,7 +393,7 @@ public class CollectionManager {
         boolean continueReading = obligatory;
         Float x = null;
         do {
-            x = tryParseFloat(sc.nextLine());
+            x = tryParseFloat(sc.next());
             if (x == null) {
                 System.out.println("The entered value cannot be null, " + message);
             } else {

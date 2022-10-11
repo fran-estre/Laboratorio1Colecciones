@@ -13,6 +13,10 @@ public class Location {
         this.name = name;
     }
 
+    public Location() {
+
+    }
+
     public Long getX() {
         return x;
     }
@@ -49,7 +53,7 @@ public class Location {
         String xCsv = String.format("%s,", getX());
         String yCsv = String.format("%s,", getY());
         String zCsv = String.format("%s,", getZ());
-        String nameCsv = String.format("%s,", getName());
+        String nameCsv = String.format("%s", getName());
         return String.format("%s%s%s%s", xCsv, yCsv, zCsv, nameCsv);
     }
 }

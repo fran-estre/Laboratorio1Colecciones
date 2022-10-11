@@ -1,8 +1,10 @@
 import Entidades.Movie;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Commander {
@@ -10,19 +12,20 @@ public class Commander {
     static String fileName;
     static String initialization;
 
-    public static void handleConsoleCommand(String[] args) {
-        CollectionManager manager = new CollectionManager();
+    public static void handleConsoleCommand(String[] args) throws IOException {
+        fileName = getFileName(args);
+        if (fileName == null) return;
         Scanner keyboard = new Scanner(System.in);
         String currentCommand;
         System.out.println("Enter the command: ");
-        while ((currentCommand = keyboard.nextLine()) != "exit") {
+        while (!Objects.equals(currentCommand = keyboard.nextLine(), "exit")) {
             String[] parts = currentCommand.split(" ");
             switch (parts[0]) {
                 case "help":
-                    manager.help();
+                    CollectionManager.help();
                     break;
                 case "info":
-                    manager.info(movieHashtable, initialization);
+                    CollectionManager.info(movieHashtable, initialization);
                     break;
                 case "show":
                     CollectionManager.show(movieHashtable);
@@ -30,7 +33,7 @@ public class Commander {
                 case "clear":
                     movieHashtable=CollectionManager.clear();
                 case "save":
-
+                CollectionManager.save(fileName,movieHashtable);
                     break;
                 case "remove_key":
                     if (parts.length < 2) {

@@ -127,4 +127,8 @@ public class Movie {
                 personCsv);
         return movieCsv;
     }
+    @Override
+    public String toString() {
+        return String.format("id: %s, name: %s", getId(), getName());
+    }
 }

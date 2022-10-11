@@ -1,6 +1,4 @@
-import Entidades.Color;
-import Entidades.Movie;
-import Entidades.MpaaRating;
+import Entidades.*;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -22,29 +20,35 @@ public class CsvReader {
         String line;
         Hashtable<Long, Movie> movies = new Hashtable<>();
         List<String> list;
-        Movie movie = new Movie();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        Movie movie;
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
         try {
             while ((line = reader.readLine()) != null) {
                 list = Arrays.asList(line.split(","));
-                    movie.setId(Long.parseLong(list.get(0)));
-                    movie.setName(list.get(1));
-                    movie.getCoordinates().setX(Double.parseDouble(list.get(2)));
-                    movie.getCoordinates().setY(Float.parseFloat(list.get(3)));
-                    movie.setCreationDate(formatter.parse(list.get(4)));
-                    movie.setOscarsCount(Long.parseLong(list.get(5)));
-                    movie.setBudget(Integer.parseInt(list.get(6)));
-                    movie.setTotalBoxOffice(Integer.parseInt(list.get(7)));
-                    movie.setMpaaRating(getMpaaRating(list.get(8)));
-                    movie.getOperator().setName(list.get(9));
-                    movie.getOperator().setHeight(Long.parseLong(list.get(10)));
-                    movie.getOperator().setPassportID(list.get(11));
-                    movie.getOperator().setEyeColor(getEye(list.get(12)));
-                    movie.getOperator().getLocation().setX(Long.parseLong(list.get(13)));
-                    movie.getOperator().getLocation().setY(Float.parseFloat(list.get(14)));
-                    movie.getOperator().getLocation().setZ(Float.parseFloat(list.get(15)));
-                    movie.getOperator().getLocation().setName(list.get(16));
-                   movies.put(movie.getId(),movie);
+                movie = new Movie(Long.parseLong(list.get(0)), list.get(1),
+                        new Coordinates(
+                                Double.parseDouble(list.get(2)),
+                                Float.parseFloat(list.get(3))
+                        ),
+                        formatter.parse(list.get(4)),
+                        Long.parseLong(list.get(5)),
+                        Integer.parseInt(list.get(6)),
+                        Integer.parseInt(list.get(7)),
+                        getMpaaRating(list.get(8)),
+                        new Person(
+                                list.get(9),
+                                Long.parseLong(list.get(10)),
+                                list.get(11),
+                                getEye(list.get(12)),
+                                new Location(
+                                        Long.parseLong(list.get(13)),
+                                        Float.parseFloat(list.get(14)),
+                                        Float.parseFloat(list.get(15)),
+                                        list.get(16)
+                                )
+                        )
+                );
+                movies.put(movie.getId(), movie);
             }
             return movies;
         } catch (IOException | ParseException e) {
@@ -63,6 +67,7 @@ public class CsvReader {
         }
         return rating;
     }
+
     private static Color getEye(String eye) {
         List<Color> colors = Arrays.asList(Color.values());
         Color colorEye = null;
