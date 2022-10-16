@@ -25,30 +25,30 @@ public class CsvReader {
         try {
             while ((line = reader.readLine()) != null) {
                 list = Arrays.asList(line.split(","));
-                movie = new Movie(Long.parseLong(list.get(0)), list.get(1),
+                movie = new Movie(Long.parseLong(list.get(1)), list.get(2),
                         new Coordinates(
-                                Double.parseDouble(list.get(2)),
-                                Float.parseFloat(list.get(3))
+                                Double.parseDouble(list.get(3)),
+                                Float.parseFloat(list.get(4))
                         ),
-                        formatter.parse(list.get(4)),
-                        Long.parseLong(list.get(5)),
-                        Integer.parseInt(list.get(6)),
+                        formatter.parse(list.get(5)),
+                        Long.parseLong(list.get(6)),
                         Integer.parseInt(list.get(7)),
-                        getMpaaRating(list.get(8)),
+                        Integer.parseInt(list.get(8)),
+                        getMpaaRating(list.get(9)),
                         new Person(
-                                list.get(9),
-                                Long.parseLong(list.get(10)),
-                                list.get(11),
-                                getEye(list.get(12)),
+                                list.get(10),
+                                Long.parseLong(list.get(11)),
+                                list.get(12),
+                                getEye(list.get(13)),
                                 new Location(
-                                        Long.parseLong(list.get(13)),
-                                        Float.parseFloat(list.get(14)),
+                                        Long.parseLong(list.get(14)),
                                         Float.parseFloat(list.get(15)),
-                                        list.get(16)
+                                        Float.parseFloat(list.get(16)),
+                                        list.get(17)
                                 )
                         )
                 );
-                movies.put(movie.getId(), movie);
+                movies.put(Long.parseLong(list.get(0)), movie);
             }
             return movies;
         } catch (IOException | ParseException e) {

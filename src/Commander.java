@@ -54,7 +54,7 @@ public class Commander {
                         System.out.println("The command is incomplete, you need to enter the filename that contain the commands.");
                         break;
                     }
-
+                    CollectionManager.executeScript(parts[1],movieHashtable,initialization,fileName);
                     break;
                 case "replace_if_greater":
                     if (parts.length < 3) {
@@ -123,13 +123,23 @@ public class Commander {
                     CollectionManager.count_less_than_oscars_count(value,movieHashtable);
                     break;
                 case "print_ascending":
-
+                    CollectionManager.print_ascending(movieHashtable);
                     break;
                 case "print_field_descending_oscars_count":
 
                     break;
                 case "insert":
-                    CollectionManager.insert(keyboard,movieHashtable);
+                    if (parts.length < 2) {
+                        System.out.println("The command is incomplete, you need to enter the key.");
+                        break;
+                    }
+                    try {
+                        key = Long.parseLong(parts[1]);
+                    } catch (NumberFormatException e) {
+                        System.out.println("The command is invalid.");
+                        break;
+                    }
+                    CollectionManager.insert(keyboard,movieHashtable,key);
                     break;
                 case "update":
                     if (parts.length < 2) {
@@ -149,6 +159,7 @@ public class Commander {
                     break;
             }
             System.out.println("Enter the new command: ");
+
         }
         System.out.println("Goodbye.");
     }
