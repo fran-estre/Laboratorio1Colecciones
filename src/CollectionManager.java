@@ -133,6 +133,12 @@ public class CollectionManager {
         movieHashtable.put(key, movie);
     }
 
+    /**
+     * Update the value of a collection item whose id is equal to the specified one
+     * @param id   Movie id
+     * @param keyboard Scanner
+     * @param movieHashtable Collection
+     */
     static void update(Long id, Scanner keyboard, Hashtable<Long, Movie> movieHashtable) {
         for (Map.Entry<Long, Movie> entry : movieHashtable.entrySet()) {
             Movie movieA = movieHashtable.get(entry.getKey());
@@ -146,6 +152,11 @@ public class CollectionManager {
         System.out.println("The movie don't exist.");
     }
 
+    /**
+     * Delete an item from the collection by its key
+     * @param key Movie key
+     * @param movieHashtable Collection
+     */
     static void remove_greater_key(Long key, Hashtable<Long, Movie> movieHashtable) {
         Iterator<Map.Entry<Long, Movie>> it = movieHashtable.entrySet().iterator();
         Integer deleted = 0;
@@ -159,6 +170,12 @@ public class CollectionManager {
         System.out.println("Deleted elements: " + deleted);
     }
 
+    /**
+     *  Delete an item from the collection by its key
+     * @param fileName  names file
+     * @param movieHashtable  Collection
+     * @throws IOException
+     */
     static void save(String fileName, Hashtable<Long, Movie> movieHashtable) throws IOException {
         FileOutputStream fout = new FileOutputStream(fileName);
         BufferedOutputStream bout = new BufferedOutputStream(fout);
@@ -177,6 +194,11 @@ public class CollectionManager {
         System.out.println("Success");
     }
 
+    /**
+     * Get a new unique ID
+     * @param movieHashtable Collection
+     * @return
+     */
     private static Long getNewId(Hashtable<Long, Movie> movieHashtable) {
         Long maxKey = Long.valueOf(0);
         for (Map.Entry<Long, Movie> entry : movieHashtable.entrySet()) {
@@ -188,6 +210,12 @@ public class CollectionManager {
         return maxKey;
     }
 
+    /**
+     *  Creates a Movie
+     * @param sc Scanner
+     * @param movieHashtable Collection
+     * @return returns a new Movie
+     */
     public static Movie createMovie(Scanner sc, Hashtable<Long, Movie> movieHashtable) {
         String message = "Introduce the name of the movie:";
         String name;
@@ -242,6 +270,11 @@ public class CollectionManager {
         return new Movie(getNewId(movieHashtable), name, coordinates, date, oscarsCount, budget, totalBoxOffice, rating, operator);
     }
 
+    /**
+     * Obtains the Rating
+     * @param sc Scanner
+     * @return returns the selected rating
+     */
     private static MpaaRating getMpaaRating(Scanner sc) {
         System.out.println("Enter the Mpaa rating(  G, PG, PG_13, R, NC_17):");
         String rate = sc.next();
@@ -257,6 +290,11 @@ public class CollectionManager {
         return getMpaaRating(sc);
     }
 
+    /**
+     * Creates the coordinates
+     * @param sc Scanner
+     * @return returns the new Coordinates
+     */
     public static Coordinates createCoordinates(Scanner sc) {
         String message = "Introduce the coordinate x:";
         Double x = readDouble(sc, message, true);
@@ -528,10 +566,29 @@ public class CollectionManager {
 
     public static void print_ascending(Hashtable<Long, Movie> movieHashtable) {
         Iterator<Map.Entry<Long, Movie>> it = movieHashtable.entrySet().iterator();
-        List<String> list = null;
+        ArrayList<Movie> list = new ArrayList<>();
+        String movieString="";
+        while (it.hasNext()) {
+            Map.Entry<Long, Movie> currentMovie = it.next();
+            list.add(currentMovie.getValue());
+        }
+        System.out.println("Before sorting:"+list);
+        Collections.sort(list);
+        System.out.println("After sorting"+list);
 
     }
-
+    public static void print_field_descending_oscars_count(Hashtable<Long, Movie> movieHashtable){
+        Iterator<Map.Entry<Long, Movie>> it = movieHashtable.entrySet().iterator();
+        ArrayList<Long> list = new ArrayList<>();
+        String oscars="";
+        while (it.hasNext()) {
+            Map.Entry<Long, Movie> currentMovie = it.next();
+            list.add(currentMovie.getValue().getOscarsCount());
+        }
+        System.out.println("Without sorting:"+list);
+        Collections.sort(list, Collections.reverseOrder());
+        System.out.println("Descending sorting:"+list);
+    }
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RESET = "\u001B[0m";
 

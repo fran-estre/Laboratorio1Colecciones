@@ -15,13 +15,13 @@ public class Commander {
     public static void handleConsoleCommand(String[] args) throws IOException {
         fileName = getFileName(args);
         if (fileName == null) return;
-        StringBuilder stringBuilder=new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         Scanner keyboard = new Scanner(System.in);
         String currentCommand;
         System.out.println("Enter the command: ");
         while (continuar(stringBuilder)) {
-            currentCommand=stringBuilder.toString();
-            stringBuilder.delete(0,currentCommand.length());
+            currentCommand = stringBuilder.toString();
+            stringBuilder.delete(0, currentCommand.length());
             String[] parts = currentCommand.split(" ");
             switch (parts[0]) {
                 case "help":
@@ -34,9 +34,9 @@ public class Commander {
                     CollectionManager.show(movieHashtable);
                     break;
                 case "clear":
-                    movieHashtable=CollectionManager.clear();
+                    movieHashtable = CollectionManager.clear();
                 case "save":
-                CollectionManager.save(fileName,movieHashtable);
+                    CollectionManager.save(fileName, movieHashtable);
                     break;
                 case "remove_key":
                     if (parts.length < 2) {
@@ -57,7 +57,7 @@ public class Commander {
                         System.out.println("The command is incomplete, you need to enter the filename that contain the commands.");
                         break;
                     }
-                    CollectionManager.executeScript(parts[1],movieHashtable,initialization,fileName);
+                    CollectionManager.executeScript(parts[1], movieHashtable, initialization, fileName);
                     break;
                 case "replace_if_greater":
                     if (parts.length < 3) {
@@ -109,7 +109,7 @@ public class Commander {
                         System.out.println("The command is invalid.");
                         break;
                     }
-                    CollectionManager.remove_greater_key(key,movieHashtable);
+                    CollectionManager.remove_greater_key(key, movieHashtable);
                     break;
                 case "count_less_than_oscars_count":
                     if (parts.length < 2) {
@@ -123,13 +123,13 @@ public class Commander {
                         System.out.println("The command is invalid.");
                         break;
                     }
-                    CollectionManager.count_less_than_oscars_count(value,movieHashtable);
+                    CollectionManager.count_less_than_oscars_count(value, movieHashtable);
                     break;
                 case "print_ascending":
                     CollectionManager.print_ascending(movieHashtable);
                     break;
                 case "print_field_descending_oscars_count":
-
+                    CollectionManager.print_field_descending_oscars_count(movieHashtable);
                     break;
                 case "insert":
                     if (parts.length < 2) {
@@ -142,7 +142,7 @@ public class Commander {
                         System.out.println("The command is invalid.");
                         break;
                     }
-                    CollectionManager.insert(keyboard,movieHashtable,key);
+                    CollectionManager.insert(keyboard, movieHashtable, key);
                     break;
                 case "update":
                     if (parts.length < 2) {
@@ -155,7 +155,7 @@ public class Commander {
                         System.out.println("The command is invalid.");
                         break;
                     }
-                    CollectionManager.update(key,keyboard,movieHashtable);
+                    CollectionManager.update(key, keyboard, movieHashtable);
                     break;
                 default:
                     System.out.println("Unknown command");
@@ -193,17 +193,17 @@ public class Commander {
         return fileName;
     }
 
-    static boolean continuar(StringBuilder commando){
+    static boolean continuar(StringBuilder commando) {
         Scanner keyboard = new Scanner(System.in);
         String currentCommand = keyboard.nextLine();
-        if(currentCommand.isEmpty()){
-            currentCommand= null;
+        if (currentCommand.isEmpty()) {
+            currentCommand = null;
         }
-        if (currentCommand==null){
+        if (currentCommand == null) {
             return true;
         }
         commando.append(currentCommand);
-        return !Objects.equals(currentCommand,"exit");
+        return !Objects.equals(currentCommand, "exit");
     }
 }
 
