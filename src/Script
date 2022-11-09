@@ -1,5 +1,5 @@
 help
 info
 show
-remove greater 2 2
+remove_greater_key 2
 exit
