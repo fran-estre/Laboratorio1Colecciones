@@ -116,7 +116,7 @@ public class CollectionManager {
     static void count_less_than_oscars_count(long num, Hashtable<Long, Movie> movieHashtable) {
         AtomicReference<Integer> counter = new AtomicReference<>(0);
         movieHashtable.forEach((k, v) -> {
-            if (v.getOscarsCount() == num)
+            if (v.getOscarsCount() < num)
                 counter.getAndSet(counter.get() + 1);
         });
         System.out.println("\nThere are " + counter.get() + " movies with less than " + num + " oscars.");
