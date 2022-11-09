@@ -15,10 +15,13 @@ public class Commander {
     public static void handleConsoleCommand(String[] args) throws IOException {
         fileName = getFileName(args);
         if (fileName == null) return;
+        StringBuilder stringBuilder=new StringBuilder();
         Scanner keyboard = new Scanner(System.in);
         String currentCommand;
         System.out.println("Enter the command: ");
-        while (!Objects.equals(currentCommand = keyboard.nextLine(), "exit")) {
+        while (continuar(stringBuilder)) {
+            currentCommand=stringBuilder.toString();
+            stringBuilder.delete(0,currentCommand.length());
             String[] parts = currentCommand.split(" ");
             switch (parts[0]) {
                 case "help":
@@ -158,7 +161,7 @@ public class Commander {
                     System.out.println("Unknown command");
                     break;
             }
-            System.out.println("Enter the new command: ");
+            System.out.println("Enter the new command:");
 
         }
         System.out.println("Goodbye.");
@@ -190,5 +193,17 @@ public class Commander {
         return fileName;
     }
 
+    static boolean continuar(StringBuilder commando){
+        Scanner keyboard = new Scanner(System.in);
+        String currentCommand = keyboard.nextLine();
+        if(currentCommand.isEmpty()){
+            currentCommand= null;
+        }
+        if (currentCommand==null){
+            return true;
+        }
+        commando.append(currentCommand);
+        return !Objects.equals(currentCommand,"exit");
+    }
 }
 
