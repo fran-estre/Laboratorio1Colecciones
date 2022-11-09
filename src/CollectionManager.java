@@ -10,22 +10,23 @@ public class CollectionManager {
      * Shows the commands to the user
      */
     public static void help() {
-        System.out.println("help : вывести справку по доступным командам\n" +
-                "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
-                "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
-                "insert null {element} : добавить новый элемент с заданным ключом\n" +
-                "update id {element} : обновить значение элемента коллекции, id которого равен заданному\n" +
-                "remove_key null : удалить элемент из коллекции по его ключу\n" +
-                "clear : очистить коллекцию\n" +
-                "save : сохранить коллекцию в файл\n" +
-                "execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.\n" +
-                "exit : завершить программу (без сохранения в файл)\n" +
-                "replace_if_greater null {element} : заменить значение по ключу, если новое значение больше старого\n" +
-                "replace_if_lowe null {element} : заменить значение по ключу, если новое значение меньше старого\n" +
-                "remove_greater_key null : удалить из коллекции все элементы, ключ которых превышает заданный\n" +
-                "count_less_than_oscars_count oscarsCount : вывести количество элементов, значение поля oscarsCount которых меньше заданного\n" +
-                "print_ascending : вывести элементы коллекции в порядке возрастания\n" +
-                "print_field_descending_oscars_count : вывести значения поля oscarsCount всех элементов в порядке убывания");
+        System.out.println("""
+                help : вывести справку по доступным командам
+                info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)
+                show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении
+                insert null {element} : добавить новый элемент с заданным ключом
+                update id {element} : обновить значение элемента коллекции, id которого равен заданному
+                remove_key null : удалить элемент из коллекции по его ключу
+                clear : очистить коллекцию
+                save : сохранить коллекцию в файл
+                execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
+                exit : завершить программу (без сохранения в файл)
+                replace_if_greater null {element} : заменить значение по ключу, если новое значение больше старого
+                replace_if_lowe null {element} : заменить значение по ключу, если новое значение меньше старого
+                remove_greater_key null : удалить из коллекции все элементы, ключ которых превышает заданный
+                count_less_than_oscars_count oscarsCount : вывести количество элементов, значение поля oscarsCount которых меньше заданного
+                print_ascending : вывести элементы коллекции в порядке возрастания
+                print_field_descending_oscars_count : вывести значения поля oscarsCount всех элементов в порядке убывания""");
     }
 
     /**
@@ -52,11 +53,10 @@ public class CollectionManager {
     /**
      * Clears the collection
      *
-     * @return
+     * @return  returns a clean Collection
      */
     static Hashtable<Long, Movie> clear() {
-        Hashtable<Long, Movie> movieHashtable = new Hashtable<>();
-        return movieHashtable;
+        return new Hashtable<Long,Movie>();
     }
 
     /**
@@ -159,7 +159,7 @@ public class CollectionManager {
      */
     static void remove_greater_key(Long key, Hashtable<Long, Movie> movieHashtable) {
         Iterator<Map.Entry<Long, Movie>> it = movieHashtable.entrySet().iterator();
-        Integer deleted = 0;
+        int deleted = 0;
         while (it.hasNext()) {
             Map.Entry<Long, Movie> entry = it.next();
             if (entry.getKey() > key) {
@@ -174,7 +174,7 @@ public class CollectionManager {
      *  Delete an item from the collection by its key
      * @param fileName  names file
      * @param movieHashtable  Collection
-     * @throws IOException
+     * @throws IOException if there is an interruption or failed process
      */
     static void save(String fileName, Hashtable<Long, Movie> movieHashtable) throws IOException {
         FileOutputStream fout = new FileOutputStream(fileName);
@@ -197,7 +197,7 @@ public class CollectionManager {
     /**
      * Get a new unique ID
      * @param movieHashtable Collection
-     * @return
+     * @return returns a new id
      */
     private static Long getNewId(Hashtable<Long, Movie> movieHashtable) {
         Long maxKey = Long.valueOf(0);
@@ -278,7 +278,7 @@ public class CollectionManager {
     private static MpaaRating getMpaaRating(Scanner sc) {
         System.out.println("Enter the Mpaa rating(  G, PG, PG_13, R, NC_17):");
         String rate = sc.next();
-        List<MpaaRating> mpaaRatings = Arrays.asList(MpaaRating.values());
+        MpaaRating[] mpaaRatings = MpaaRating.values();
         MpaaRating rating = null;
         for (MpaaRating mpaaRating : mpaaRatings) {
             if (mpaaRating.name().equals(rate)) {
@@ -377,7 +377,7 @@ public class CollectionManager {
     private static Color createEye(Scanner sc) {
         System.out.println("Enter the eye color(RED, YELLOW, ORANGE, BROWN):");
         String color = sc.next();
-        List<Color> colors = Arrays.asList(Color.values());
+        Color[] colors = Color.values();
         Color colorEye = null;
         for (Color color1 : colors) {
             if (color1.name().equals(color)) {
@@ -564,6 +564,10 @@ public class CollectionManager {
         return x;
     }
 
+    /**
+     * Output the elements of the collection in ascending order
+     * @param movieHashtable Collection
+     */
     public static void print_ascending(Hashtable<Long, Movie> movieHashtable) {
         Iterator<Map.Entry<Long, Movie>> it = movieHashtable.entrySet().iterator();
         ArrayList<Movie> list = new ArrayList<>();
@@ -577,6 +581,11 @@ public class CollectionManager {
         System.out.println("After sorting"+list);
 
     }
+
+    /**
+     * Print the values of the oscarsCount field of all elements in descending order
+     * @param movieHashtable Collection
+     */
     public static void print_field_descending_oscars_count(Hashtable<Long, Movie> movieHashtable){
         Iterator<Map.Entry<Long, Movie>> it = movieHashtable.entrySet().iterator();
         ArrayList<Long> list = new ArrayList<>();
@@ -630,7 +639,7 @@ public class CollectionManager {
      * @param movieHashtable the collection
      * @param initialization initialization time
      * @param fileName       name of the file
-     * @throws IOException
+     * @throws IOException if there is an interruption or failed process
      */
     private static void executeCommand(String currentCommand, Hashtable<Long, Movie> movieHashtable, String initialization, String fileName) throws IOException {
         String[] parts = currentCommand.split(" ");
@@ -697,7 +706,7 @@ public class CollectionManager {
                 CollectionManager.print_ascending(movieHashtable);
                 break;
             case "print_field_descending_oscars_count":
-
+                CollectionManager.print_field_descending_oscars_count(movieHashtable);
                 break;
         }
     }

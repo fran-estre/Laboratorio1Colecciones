@@ -1,7 +1,4 @@
 package Entidades;
-
-import Entidades.Coordinates;
-
 import java.util.Comparator;
 import java.util.Date;
 
