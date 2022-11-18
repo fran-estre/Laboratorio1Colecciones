@@ -56,6 +56,12 @@ public class CsvReader {
             return null;
         }
     }
+
+    /**
+     *  get the rating
+     * @param rate string
+     * @return rating
+     */
     private static MpaaRating getMpaaRating(String rate) {
         List<MpaaRating> mpaaRatings = Arrays.asList(MpaaRating.values());
         MpaaRating rating = null;
@@ -68,6 +74,11 @@ public class CsvReader {
         return rating;
     }
 
+    /**
+     * get the  color
+     * @param eye string
+     * @return color
+     */
     private static Color getEye(String eye) {
         List<Color> colors = Arrays.asList(Color.values());
         Color colorEye = null;
