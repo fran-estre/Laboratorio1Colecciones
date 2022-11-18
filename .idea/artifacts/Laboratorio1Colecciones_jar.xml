@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Laboratorio1Colecciones:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Laboratorio1Colecciones_jar</output-path>
+    <root id="archive" name="Laboratorio1Colecciones.jar">
+      <element id="module-output" name="Laboratorio1Colecciones" />
+      <element id="extracted-dir" path="D:/HerramientaDeProgramacionJava/jars/opencsv-5.7.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
