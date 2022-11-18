@@ -187,6 +187,7 @@ public class CollectionManager {
         }
 
         byte b[] = movieString.getBytes();
+
         bout.write(b);
         bout.flush();
         bout.close();
