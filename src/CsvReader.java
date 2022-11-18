@@ -9,6 +9,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class CsvReader {
+    /**
+     *  reads the file
+     * @param fileName file path
+     * @return collection
+     */
     public Hashtable<Long, Movie> read(String fileName) {
         BufferedReader reader;
         try {
