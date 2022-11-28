@@ -33,7 +33,7 @@ public class Commander {
                     CollectionManager.help();
                     break;
                 case "info":
-                    CollectionManager.info(movieHashtable, initialization);
+                    CollectionManager.info(initialization);
                     break;
                 case "show":
                     CollectionManager.show(movieHashtable);

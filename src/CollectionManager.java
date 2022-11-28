@@ -31,14 +31,13 @@ public class CollectionManager {
 
     /**
      * Gives information about the collection to the user
-     *
-     * @param movieHashtable collection
      * @param initialization initialization time
      */
-    public static void info(Hashtable<Long, Movie> movieHashtable, String initialization) {
+    public static void info(String initialization) {
+
         System.out.println("type: Hashtable<Long, Movie>");
         System.out.println("initialization: " + initialization);
-        System.out.println("length: " + movieHashtable.size());
+        System.out.println("length: " + Commander.movieHashtable.size());
     }
 
     /**
@@ -652,7 +651,7 @@ public class CollectionManager {
                 help();
                 break;
             case "info":
-                info(movieHashtable, initialization);
+                info( initialization);
                 break;
             case "show":
                 show(movieHashtable);
