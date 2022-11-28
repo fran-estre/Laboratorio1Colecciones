@@ -127,8 +127,8 @@ public class CollectionManager {
      * @param keyboard       scanner
      * @param movieHashtable collection
      */
-    static void insert(Scanner keyboard, Hashtable<Long, Movie> movieHashtable, long key) {
-        Movie movie = createMovie(keyboard, movieHashtable);
+    static void insert(Scanner keyboard, Hashtable<Long, Movie> movieHashtable, Long key) {
+        Movie movie = createMovie(keyboard,getNewId(movieHashtable) ,movieHashtable);
         movieHashtable.put(key, movie);
     }
 
@@ -138,11 +138,11 @@ public class CollectionManager {
      * @param keyboard Scanner
      * @param movieHashtable Collection
      */
-    static void update(Long id, Scanner keyboard, Hashtable<Long, Movie> movieHashtable) {
+    static void update(long id, Scanner keyboard, Hashtable<Long, Movie> movieHashtable) {
         for (Map.Entry<Long, Movie> entry : movieHashtable.entrySet()) {
             Movie movieA = movieHashtable.get(entry.getKey());
             if (movieA.getId() == id) {
-                Movie movie = createMovie(keyboard, movieHashtable);
+                Movie movie = createMovie(keyboard,movieA.getId(),movieHashtable);
                 movieHashtable.replace(entry.getKey(), movie);
                 System.out.println("The movie was updated.");
                 return;
@@ -152,7 +152,7 @@ public class CollectionManager {
     }
 
     /**
-     * Delete an item from the collection by its key
+     * Delete from the collection all items whose key exceeds the given
      * @param key Movie key
      * @param movieHashtable Collection
      */
@@ -216,7 +216,7 @@ public class CollectionManager {
      * @param movieHashtable Collection
      * @return returns a new Movie
      */
-    public static Movie createMovie(Scanner sc, Hashtable<Long, Movie> movieHashtable) {
+    public static Movie createMovie(Scanner sc,Long id,Hashtable<Long, Movie> movieHashtable) {
         String message = "Introduce the name of the movie:";
         String name;
         do {
@@ -267,7 +267,7 @@ public class CollectionManager {
         Person operator = createPerson(sc);
 
 
-        return new Movie(getNewId(movieHashtable), name, coordinates, date, oscarsCount, budget, totalBoxOffice, rating, operator);
+        return new Movie(id, name, coordinates, date, oscarsCount, budget, totalBoxOffice, rating, operator);
     }
 
     /**

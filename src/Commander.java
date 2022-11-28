@@ -154,13 +154,14 @@ public class Commander {
                         System.out.println("The command is incomplete, you need to enter the key.");
                         break;
                     }
+                    long id;
                     try {
-                        key = Long.parseLong(parts[1]);
+                        id = Long.parseLong(parts[1]);
                     } catch (NumberFormatException e) {
                         System.out.println("The command is invalid.");
                         break;
                     }
-                    CollectionManager.update(key, keyboard, movieHashtable);
+                    CollectionManager.update(id, keyboard, movieHashtable);
                     break;
                 default:
                     System.out.println("Unknown command");
