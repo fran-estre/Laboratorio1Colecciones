@@ -13,9 +13,9 @@ public class Commander {
     static String initialization;
 
     /**
-     *  Handles the commands written by the user
+     * Handles the commands written by the user
      * @param args environment variable.the filename
-     * @throws IOException  if there is an interruption or failed process
+     * @throws IOException if there is an interruption or failed process
      */
     public static void handleConsoleCommand(String[] args) throws IOException {
         fileName = getFileName(args);
@@ -175,8 +175,9 @@ public class Commander {
 
     /**
      * Gets the file name and read its content, otherwise closes the program
-     * @param args  environment variable.the filename
-     * @return  returns the file name
+     *
+     * @param args environment variable.the filename
+     * @return returns the file name
      */
     private static String getFileName(String[] args) {
         String fileName;
